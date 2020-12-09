@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\Waypoints.cs" />
     <Compile Include="Assets\WaveSpawner.cs" />
+    <Compile Include="Assets\Turret.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
