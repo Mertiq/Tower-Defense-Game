@@ -6,19 +6,24 @@ using UnityEngine.EventSystems;
 public class Node : MonoBehaviour
 {
     public Color hoverColor;
-    public Vector3 offset;
+    public Color notEnoughMoneyColor;
+    public Vector3 offset; 
+    [Header("Optional")]
+    public GameObject turret;
 
     Color startColor;
     Renderer rend;
-    GameObject turret;
-    BuildManager buildManager;
+   
 
     private void Awake()
     {
         rend = GetComponent<Renderer>();
         startColor = rend.material.color;
+    }
 
-        buildManager = BuildManager.instance;
+    public Vector3 GetBuildPosition()
+    {
+        return transform.position + offset;
     }
 
     private void OnMouseDown()
@@ -26,7 +31,7 @@ public class Node : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (BuildManager.instance.GetTurretToBuild() == null)
+        if (!BuildManager.instance.CanBuild)
             return;
 
         if(turret != null)
@@ -34,19 +39,7 @@ public class Node : MonoBehaviour
             Debug.Log("Cant build here");
             return;
         }
-
-        
-
-        GameObject turretToBuild = BuildManager.instance.GetTurretToBuild();
-        if(turretToBuild.name == "MissileLauncher")
-        {
-            offset = new Vector3(0, 0, 0);
-        }
-        else
-        {
-            offset = new Vector3(0, 0, 3f);
-        }
-        turret = Instantiate(turretToBuild, transform.position + offset, transform.rotation);
+        BuildManager.instance.BuildTurretOn(this);
     }
 
     private void OnMouseEnter()
@@ -54,10 +47,13 @@ public class Node : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
-        if (BuildManager.instance.GetTurretToBuild() == null)
+        if (!BuildManager.instance.CanBuild)
             return;
 
-        rend.material.color = hoverColor;
+        if (BuildManager.instance.HasMoney)
+            rend.material.color = hoverColor;
+        else
+            rend.material.color = notEnoughMoneyColor;
     }
 
     private void OnMouseExit()

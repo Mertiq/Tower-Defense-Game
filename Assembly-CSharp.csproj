@@ -65,6 +65,9 @@
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\WaveSpawner.cs" />
     <Compile Include="Assets\Scripts\Turret.cs" />
+    <Compile Include="Assets\Scripts\TurretBlueprint.cs" />
+    <Compile Include="Assets\Scripts\PlayerStats.cs" />
+    <Compile Include="Assets\MoneyUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
