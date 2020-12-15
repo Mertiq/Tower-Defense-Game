@@ -9,11 +9,15 @@ public class Turret : MonoBehaviour
 
     [Header("Game Objects")]
     public Transform partToRotate;
-    public GameObject bulletPrefab;
     public Transform firePoint;
 
+    [Header("Use bullets(deault)")]
+    public GameObject bulletPrefab;
+    [Header("Use laser(deault)")]
+    public bool useLaser = false;
+    public LineRenderer lineRenderer;
 
-    [Header("Attributes")]
+    [Header("General")]
     public float range = 15f;
     public float turnSpeed = 10f;
     public float fireRate = 1f;
@@ -52,24 +56,52 @@ public class Turret : MonoBehaviour
     void Update()
     {
         if (target == null)
+        {
+            if (useLaser && lineRenderer.enabled)
+                lineRenderer.enabled = false;
             return;
+        }
+            
 
         //Target lock on
-        Vector3 dir = target.position - transform.position;
-        Quaternion lookRotation = Quaternion.LookRotation(dir);
-        Vector3 rotation = Quaternion.Lerp(partToRotate.rotation,lookRotation,Time.deltaTime * turnSpeed).eulerAngles;
-        partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+        LockOnTarget();
 
-        if(fireCountdown <= 0)
+        if (useLaser)
         {
-            Shoot();
-            fireCountdown = 1f / fireRate;
+            Laser();
+        }
+        else
+        {
+            if (fireCountdown <= 0)
+            {
+                Shoot();
+                fireCountdown = 1f / fireRate;
+            }
+
+            fireCountdown -= Time.deltaTime;
         }
 
-        fireCountdown -= Time.deltaTime;
+       
 
     }
+    
 
+    void LockOnTarget()
+    {
+        Vector3 dir = target.position - transform.position;
+        Quaternion lookRotation = Quaternion.LookRotation(dir);
+        Vector3 rotation = Quaternion.Lerp(partToRotate.rotation, lookRotation, Time.deltaTime * turnSpeed).eulerAngles;
+        partToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+    }
+    void Laser()
+    {
+        if (!lineRenderer.enabled)
+        {
+            lineRenderer.enabled = true;
+        }
+        lineRenderer.SetPosition(0, firePoint.position);
+        lineRenderer.SetPosition(1, target.position);
+    }
     void Shoot()
     {
         GameObject bulletGO = (GameObject) Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);

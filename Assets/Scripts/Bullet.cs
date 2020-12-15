@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
     {
         target = _target;
     }
-
+    public int damage = 50;
    
     void Update()
     {
@@ -67,7 +67,11 @@ public class Bullet : MonoBehaviour
 
     void Damage(Transform enemy)
     {
-        Destroy(enemy.gameObject);
+        EnemyMovement e = enemy.GetComponent<EnemyMovement>();
+
+        if (e != null)
+            e.TakeDamage(damage);
+
     }
 
     private void OnDrawGizmosSelected()

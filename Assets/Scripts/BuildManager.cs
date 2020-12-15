@@ -17,10 +17,6 @@ public class BuildManager : MonoBehaviour
         instance = this;
     }
 
-    public GameObject standartTurretPrefab;
-    public GameObject MissileLauncherTurretPrefab;
-    /*public GameObject LaserBeamerTurretPrefab;*/
-
     TurretBlueprint turretToBuild;
 
     public GameObject buildEffect;
@@ -41,6 +37,10 @@ public class BuildManager : MonoBehaviour
         if (turretToBuild.prefab.name == "MissileLauncher")
         {
             node.offset = new Vector3(0, 0, 0);
+        }
+        else if (turretToBuild.prefab.name == "LaserBeamer")
+        {
+            node.offset = new Vector3(0, 0, 0f);
         }
         else
         {
