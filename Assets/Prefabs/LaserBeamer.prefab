@@ -4984,6 +4984,8 @@ MonoBehaviour:
   bulletPrefab: {fileID: 0}
   useLaser: 1
   lineRenderer: {fileID: 120000012026282110}
+  impactEffect: {fileID: 198000014294947900}
+  impactLight: {fileID: 108000012254394918}
   range: 20
   turnSpeed: 10
   fireRate: 1
@@ -5059,8 +5061,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.89533997, g: 1, b: 0, a: 0.38431373}
-      key1: {r: 1, g: 0.18947032, b: 0, a: 0.73333335}
+      key0: {r: 0.13407338, g: 1, b: 0, a: 0.73333335}
+      key1: {r: 0.026791116, g: 0.9716981, b: 0.41960785, a: 0.73333335}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Turret : MonoBehaviour
 {
     Transform target;
+    public Enemy targetEnemy;
 
     [Header("Game Objects")]
     public Transform partToRotate;
@@ -13,9 +14,14 @@ public class Turret : MonoBehaviour
 
     [Header("Use bullets(deault)")]
     public GameObject bulletPrefab;
+
     [Header("Use laser(deault)")]
     public bool useLaser = false;
+    public int damageOverTime = 30;
+    public float slowPercent = .5f;
     public LineRenderer lineRenderer;
+    public ParticleSystem impactEffect;
+    public Light impactLight;
 
     [Header("General")]
     public float range = 15f;
@@ -46,6 +52,7 @@ public class Turret : MonoBehaviour
         if(nearestEnemy != null && shortestDistance <= range)
         {
             target = nearestEnemy.transform;
+            targetEnemy = nearestEnemy.GetComponent<Enemy>();
         }
         else
         {
@@ -58,7 +65,11 @@ public class Turret : MonoBehaviour
         if (target == null)
         {
             if (useLaser && lineRenderer.enabled)
+            {
                 lineRenderer.enabled = false;
+                impactLight.enabled = false;
+                impactEffect.Stop();
+            }
             return;
         }
             
@@ -95,13 +106,26 @@ public class Turret : MonoBehaviour
     }
     void Laser()
     {
+        targetEnemy.TakeDamage(damageOverTime * Time.deltaTime);
+        targetEnemy.Slow(slowPercent);
+
         if (!lineRenderer.enabled)
         {
             lineRenderer.enabled = true;
+            impactEffect.Play();
+            impactLight.enabled = true;
         }
         lineRenderer.SetPosition(0, firePoint.position);
         lineRenderer.SetPosition(1, target.position);
+
+        Vector3 dir = firePoint.position - target.position;
+
+        impactEffect.transform.position = target.position + dir.normalized;
+        impactEffect.transform.rotation = Quaternion.LookRotation(dir);
     }
+
+    
+
     void Shoot()
     {
         GameObject bulletGO = (GameObject) Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
