@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\LivesUI.cs" />
+    <Compile Include="Assets\Enemy.cs" />
     <Compile Include="Assets\Scripts\BuildManager.cs" />
     <Compile Include="Assets\Scripts\EnemyMovement.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
@@ -70,7 +71,7 @@
     <Compile Include="Assets\Scripts\Turret.cs" />
     <Compile Include="Assets\Scripts\TurretBlueprint.cs" />
     <Compile Include="Assets\Scripts\MoneyUI.cs" />
-    <Compile Include="Assets\Enemy.cs" />
+    <Compile Include="Assets\GameOver.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
